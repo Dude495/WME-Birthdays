@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME Birthdays
 // @namespace    Dude495
-// @version      2019.05.23.01
+// @version      2019.06.13.01
 // @description  Creates buttons on the top bar of the Waze Forums to access editor birthday information.
 // @author       Birthday Team
 // @include      /^https:\/\/.*\.waze\.com\/forum\/.*
@@ -333,7 +333,7 @@
         if (DBG == true) {
             dimg.onclick = function() {
                 let today = localStorage.getItem('WMEBtoday');
-                console.log('Birthday Button for Discord Clicked.\n\nBirthday List Contains: ' + arrBirthdayListDiscord.length + ' usernames')
+                console.log('Birthday Button for Discord Clicked.\n\nBirthday List Contains: ' + arrBirthdayListDiscord.length + ' usernames\n\n' + arrBirthdayListDiscord.join('\n'))
             };
         } else {
             dimg.onclick = function() {
@@ -367,8 +367,12 @@
             BirthdayButton();
             document.getElementById('PDM').checked = checked;
             document.getElementById('CMSG').checked = checked1;
-            var WMEBt = $('#page-body > p:nth-child(2)')[0].innerText.replace(todayRegEx, '');
-            localStorage.setItem('WMEBtoday', WMEBt);
+            let WMEBt = $('#page-body > p:nth-child(2)')[0].innerText.replace(todayRegEx, '');
+            if (WMEBt.includes('Control Panel')) {
+                localStorage.setItem('WMEBtoday', WMEBt.replace('\n[ Moderator Control Panel ]', ""));
+            } else {
+                localStorage.setItem('WMEBtoday', WMEBt);
+            }
             if (DBG == true) { window.alert('You are in DEBUG Mode for ' + SCRIPTNAME + ' Script\n\nIf this is in error please contact Dude495.');
                               console.log('%c' + SCRIPTNAME +' (DEBUG MODE)', 'color: red; font-size:15px;');
                              };
